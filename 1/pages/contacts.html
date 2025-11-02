@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакты - Портфолио</title>
+    <link rel="stylesheet" href="../style/styles.css">
+    <style>
+        /* Стили для модального окна */
+        .modal::backdrop {
+            background: rgba(0, 0, 0, 0.6);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal {
+            border: none;
+            border-radius: var(--radius);
+            padding: 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+            max-width: 500px;
+            width: 90vw;
+            max-height: 90vh;
+            overflow-y: auto;
+            /* Центрирование модального окна */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin: 0;
+            background: var(--color-surface);
+            color: var(--color-text);
+            transition: all var(--transition);
+        }
+
+        .modal__header {
+            background: var(--color-main);
+            color: var(--color-white);
+            padding: var(--space-md);
+            border-radius: var(--radius) var(--radius) 0 0;
+            margin: 0;
+        }
+
+        .modal__title {
+            margin: 0;
+            color: var(--color-white);
+            font-size: 1.3rem;
+        }
+
+        .modal__content {
+            padding: var(--space-lg);
+        }
+
+        .form__group {
+            margin-bottom: var(--space-md);
+        }
+
+        .form__label {
+            display: block;
+            margin-bottom: var(--space-sm);
+            font-weight: 600;
+            color: var(--color-text);
+        }
+
+        .form__input,
+        .form__select,
+        .form__textarea {
+            width: 100%;
+            padding: var(--space-sm);
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+            background: var(--color-surface);
+            color: var(--color-text);
+        }
+
+        .form__input:focus,
+        .form__select:focus,
+        .form__textarea:focus {
+            outline: none;
+            border-color: var(--color-accent);
+        }
+
+        .form__textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .modal__actions {
+            display: flex;
+            gap: var(--space-md);
+            justify-content: flex-end;
+            margin-top: var(--space-lg);
+        }
+
+        .button {
+            padding: var(--space-sm) var(--space-md);
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .button--primary {
+            background: var(--color-accent);
+            color: var(--color-white);
+        }
+
+        .button--primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .button--secondary {
+            background: var(--color-light);
+            color: var(--color-text);
+            border: 2px solid var(--color-light);
+        }
+
+        .button--secondary:hover {
+            background: var(--color-border);
+        }
+
+        .form__required {
+            color: var(--color-error);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        /* Адаптивность */
+        @media (max-width: 600px) {
+            .modal {
+                width: 95vw;
+                margin: 0;
+            }
+
+            .modal__actions {
+                flex-direction: column;
+            }
+
+            .button {
+                width: 100%;
+            }
+        }
+
+        /* Дополнительные стили для контактов */
+        .contacts__info {
+            margin-bottom: var(--space-xl);
+        }
+
+        .contacts__description {
+            color: var(--color-text);
+            opacity: 0.8;
+            line-height: var(--line-height-relaxed);
+            margin-bottom: var(--space-lg);
+            text-align: center;
+            font-size: var(--font-size-lg);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-md);
+            margin-top: var(--space-xl);
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-sm) var(--space-md);
+            background: var(--color-surface);
+            color: var(--color-text);
+            text-decoration: none;
+            border-radius: var(--radius);
+            transition: all var(--transition);
+            border: 1px solid var(--color-border);
+        }
+
+        .social-link:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: var(--color-accent);
+            color: var(--color-white);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        <!-- Переключатель темы -->
+        <div class="theme-switcher">
+            <button class="theme-switcher__button" id="themeToggle">
+                <span class="theme-switcher__icon">🌙</span>
+                <span class="theme-switcher__text">Темная тема</span>
+            </button>
+        </div>
+
+        <header class="header">
+            <div class="header__content">
+                <h1 class="header__title">Контакты</h1>
+            </div>
+        </header>
+        
+        <nav class="nav">
+            <div class="nav__content">
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a class="nav__link" href="../index.html">Главная</a>
+                    </li>
+                    <li class="nav__item">
+                        <a class="nav__link" href="news.html">Новости</a>
+                    </li>
+                    <li class="nav__item">
+                        <a class="nav__link" href="goods.html">Товары</a>
+                    </li>
+                    <li class="nav__item nav__item--active">
+                        <a class="nav__link" href="contacts.html">Контакты</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        
+        <main class="main">
+            <div class="main__content">
+                <section class="contacts">
+                    <h2 class="contacts__title">Свяжитесь со мной</h2>
+                    
+                    <div class="contacts__info">
+                        <p class="contacts__description">
+                            Я всегда открыт для новых проектов и сотрудничества. Не стесняйтесь связаться со мной любым удобным способом!
+                        </p>
+                    </div>
+                    
+                    <div class="contacts__list">
+                        <div class="contact-item">
+                            <h3 class="contact-item__title">Электронная почта</h3>
+                            <p class="contact-item__value">realemail@mirea.ru</p>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <h3 class="contact-item__title">Телефон</h3>
+                            <p class="contact-item__value">+7 (495) 123-45-67</p>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <h3 class="contact-item__title">Адрес</h3>
+                            <p class="contact-item__value">г. Москва, ул. Пушкина, д. Колотушкина</p>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <h3 class="contact-item__title">Время работы</h3>
+                            <p class="contact-item__value">Пн-Пт: 9:00-18:00</p>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="contacts__action">
+                        <button class="button button--primary" onclick="contactModal.showModal()">Написать сообщение</button>
+                    </div>
+                </section>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <div class="footer__content">
+                <p class="footer__text">&copy; 2024 Мой сайт</p>
+            </div>
+        </footer>
+        
+        <!-- Модальное окно для формы обратной связи -->
+        <dialog class="modal" id="contactModal">
+            <div class="modal__header">
+                <h2 class="modal__title">Форма обратной связи</h2>
+            </div>
+
+            <div class="modal__content">
+                <form class="form" id="feedbackForm" method="dialog">
+                    <div class="form__group">
+                        <label class="form__label" for="name">Имя <span class="form__required">*</span></label>
+                        <input class="form__input" type="text" id="name" name="name" required placeholder="Введите ваше имя">
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label" for="phone">Телефон <span class="form__required">*</span></label>
+                        <input class="form__input" type="tel" id="phone" name="phone" required placeholder="+7 (XXX) XXX-XX-XX">
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label" for="email">Электронная почта <span class="form__required">*</span></label>
+                        <input class="form__input" type="email" id="email" name="email" required placeholder="example@mail.ru">
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label" for="category">Категория обращения <span class="form__required">*</span></label>
+                        <select class="form__select" id="category" name="category" required>
+                            <option value="">Выберите категорию</option>
+                            <option value="technical">Техническая поддержка</option>
+                            <option value="commercial">Коммерческое предложение</option>
+                            <option value="cooperation">Сотрудничество</option>
+                            <option value="complaint">Жалоба</option>
+                            <option value="suggestion">Предложение</option>
+                            <option value="other">Другое</option>
+                        </select>
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label" for="message">Текст обращения <span class="form__required">*</span></label>
+                        <textarea class="form__textarea" id="message" name="message" required placeholder="Опишите вашу проблему или вопрос..."></textarea>
+                    </div>
+                    <div class="modal__actions">
+                        <button type="submit" class="button button--secondary">Отмена</button>
+                        <button type="button" class="button button--primary" onclick="submitForm()">Отправить</button>
+                    </div>
+                </form>
+            </div>
+        </dialog>
+        
+        <script>
+            // Переключение темы
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = themeToggle.querySelector('.theme-switcher__icon');
+            const themeText = themeToggle.querySelector('.theme-switcher__text');
+            
+            // Проверяем сохраненную тему
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
+            updateThemeButton(savedTheme);
+            
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = document.body.getAttribute('data-theme');
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                
+                document.body.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeButton(newTheme);
+            });
+            
+            function updateThemeButton(theme) {
+                if (theme === 'dark') {
+                    themeIcon.textContent = '☀️';
+                    themeText.textContent = 'Светлая тема';
+                } else {
+                    themeIcon.textContent = '🌙';
+                    themeText.textContent = 'Темная тема';
+                }
+            }
+
+            // Функция для отправки формы
+            function submitForm() {
+                const form = document.getElementById('feedbackForm');
+                const formData = new FormData(form);
+
+                // Простая валидация
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+                
+                // Собираем данные формы
+                const data = {
+                    name: formData.get('name'),
+                    phone: formData.get('phone'),
+                    email: formData.get('email'),
+                    category: formData.get('category'),
+                    message: formData.get('message')
+                };
+                
+                // В реальном приложении здесь был бы AJAX-запрос
+                console.log('Данные формы:', data);
+                
+                // Показываем уведомление об успешной отправке
+                alert('Спасибо! Ваше обращение отправлено. Мы свяжемся с вами в ближайшее время.');
+
+                // Закрываем модальное окно
+                contactModal.close();
+
+                // Очищаем форму
+                form.reset();
+            }
+            
+            // Закрытие модального окна по клику на фон
+            document.getElementById('contactModal').addEventListener('click', function (event) {
+                if (event.target === this) {
+                    this.close();
+                }
+            });
+            
+            // Обработка отправки формы через Enter (предотвращаем стандартное поведение)
+            document.getElementById('feedbackForm').addEventListener('keypress', function (event) {
+                if (event.key === 'Enter' && event.target.type !== 'textarea') {
+                    event.preventDefault();
+                }
+            });
+
+            // Дополнительная интерактивность для контактных элементов
+            document.addEventListener('DOMContentLoaded', function() {
+                const contactItems = document.querySelectorAll('.contact-item');
+                const socialLinks = document.querySelectorAll('.social-link');
+                
+                contactItems.forEach(item => {
+                    item.addEventListener('click', function() {
+                        // Копируем текст контакта в буфер обмена
+                        const contactValue = this.querySelector('.contact-item__value').textContent;
+                        copyToClipboard(contactValue);
+                        
+                        // Визуальная обратная связь
+                        const originalText = this.querySelector('.contact-item__title').textContent;
+                        this.querySelector('.contact-item__title').textContent = 'Скопировано!';
+                        
+                        setTimeout(() => {
+                            this.querySelector('.contact-item__title').textContent = originalText;
+                        }, 2000);
+                    });
+                });
+
+                // Функция копирования в буфер обмена
+                function copyToClipboard(text) {
+                    navigator.clipboard.writeText(text).then(() => {
+                        console.log('Текст скопирован: ' + text);
+                    }).catch(err => {
+                        console.error('Ошибка копирования: ', err);
+                    });
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>

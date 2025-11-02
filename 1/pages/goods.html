@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Товары - Портфолио</title>
+    <link rel="stylesheet" href="../style/styles.css">
+</head>
+
+<body>
+    <div class="page">
+        <!-- Переключатель темы -->
+        <div class="theme-switcher">
+            <button class="theme-switcher__button" id="themeToggle">
+                <span class="theme-switcher__icon">🌙</span>
+                <span class="theme-switcher__text">Темная тема</span>
+            </button>
+        </div>
+
+        <header class="header">
+            <div class="header__content">
+                <h1 class="header__title">Товары</h1>
+            </div>
+        </header>
+        
+        <nav class="nav">
+            <div class="nav__content">
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a class="nav__link" href="../index.html">Главная</a>
+                    </li>
+                    <li class="nav__item">
+                        <a class="nav__link" href="news.html">Новости</a>
+                    </li>
+                    <li class="nav__item nav__item--active">
+                        <a class="nav__link" href="goods.html">Товары</a>
+                    </li>
+                    <li class="nav__item">
+                        <a class="nav__link" href="contacts.html">Контакты</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        
+        <main class="main">
+            <div class="main__content">
+                <section class="goods">
+                    <h2 class="goods__title">Мои товары</h2>
+                    <p class="goods__description">Здесь представлены товары, которые я разрабатываю или с которыми работаю. Все продукты созданы с вниманием к деталям и качеству.</p>
+                    
+                    <div class="goods__grid">
+                        <!-- Товар со скидкой -->
+                        <div class="goods-item goods-item--discount" data-id="1">
+                            <div class="goods-item__image-container">
+                                <img class="goods-item__image" src="../assets/ducky.webp" alt="Rubber Ducky">
+                            </div>
+                            <div class="goods-item__content">
+                                <h3 class="goods-item__title">Rubber Ducky</h3>
+                                <p class="goods-item__desc">Обычная флешка. Правда</p>
+                                <div class="goods-item__price">
+                                    <span class="goods-item__price--old">2 000 ₽</span>
+                                    1 500 ₽
+                                </div>
+                            </div>
+                            <div class="goods-item__actions">
+                                <button class="goods-item__button">Купить</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Обычный товар -->
+                        <div class="goods-item" data-id="2">
+                            <div class="goods-item__image-container">
+                                <img class="goods-item__image" src="../assets/rolex.webp" alt="rolex">
+                            </div>
+                            <div class="goods-item__content">
+                                <h3 class="goods-item__title">Rolex</h3>
+                                <p class="goods-item__desc">Оригинальные rolex. Умеют отматывать время.</p>
+                                <div class="goods-item__price">2 300 ₽</div>
+                            </div>
+                            <div class="goods-item__actions">
+                                <button class="goods-item__button">Купить</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Товар со скидкой -->
+                        <div class="goods-item goods-item--discount" data-id="3">
+                            <div class="goods-item__image-container">
+                                <img class="goods-item__image" src="../assets/stanok.webp" alt="станок">
+                            </div>
+                            <div class="goods-item__content">
+                                <h3 class="goods-item__title">Вертикально-фрезерный консольный станок с числовым программным
+                                управлением и
+                                автоматической сменой инструмента.</h3>
+                                <p class="goods-item__desc">Описание в названии</p>
+                                <div class="goods-item__price">
+                                    <span class="goods-item__price--old">1 200 ₽</span>
+                                    800 ₽
+                                </div>
+                            </div>
+                            <div class="goods-item__actions">
+                                <button class="goods-item__button">Купить</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <div class="footer__content">
+                <p class="footer__text">&copy; 2024 Мой сайт</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Переключение темы
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('.theme-switcher__icon');
+        const themeText = themeToggle.querySelector('.theme-switcher__text');
+        
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
+        updateThemeButton(savedTheme);
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton(newTheme);
+        });
+        
+        function updateThemeButton(theme) {
+            if (theme === 'dark') {
+                themeIcon.textContent = '☀️';
+                themeText.textContent = 'Светлая тема';
+            } else {
+                themeIcon.textContent = '🌙';
+                themeText.textContent = 'Темная тема';
+            }
+        }
+
+        // Взаимодействие с карточками товаров
+        document.addEventListener('DOMContentLoaded', function() {
+            const goodsItems = document.querySelectorAll('.goods-item');
+            const buyButtons = document.querySelectorAll('.goods-item__button');
+            
+            // Обработка клика по карточке товара
+            goodsItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    // Не срабатывает при клике на кнопку
+                    if (!e.target.classList.contains('goods-item__button')) {
+                        this.classList.toggle('goods-item--selected');
+                    }
+                });
+            });
+            
+            // Обработка клика по кнопке покупки
+            buyButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Предотвращаем всплытие
+                    const goodsItem = this.closest('.goods-item');
+                    const itemId = goodsItem.dataset.id;
+                    const itemTitle = goodsItem.querySelector('.goods-item__title').textContent;
+                    
+                    // В реальном приложении здесь была бы логика добавления в корзину
+                    alert(`Товар "${itemTitle}" добавлен в корзину!`);
+                    
+                    // Визуальная обратная связь
+                    this.textContent = 'Добавлено!';
+                    this.style.background = 'var(--color-success)';
+                    
+                    setTimeout(() => {
+                        this.textContent = 'Купить';
+                        this.style.background = '';
+                    }, 2000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
