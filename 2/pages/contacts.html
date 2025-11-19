@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Контакты - Портфолио</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/adaptive-images.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
         :root {
@@ -126,11 +127,58 @@
             color: #f1f5f9;
             line-height: 1;
         }
+
+        /* FIX: Улучшение видимости фокуса для навигации с клавиатуры */
+        .navbar-nav .nav-link:focus,
+        .btn:focus,
+        .form-control:focus,
+        .form-select:focus {
+            outline: 2px solid #93c5fd;
+            outline-offset: 2px;
+        }
+
+        /* FIX: Улучшение контрастности для текста в подвале */
+        .text-muted {
+            color: #cbd5e1 !important; /* Заменяет стандартный серый на более светлый */
+        }
+
+        /* FIX: Скрытие элемента для скринридеров */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* FIX: Стиль для ссылки "перейти к содержанию" */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: #6366f1;
+            color: white;
+            padding: 8px;
+            z-index: 10000;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .skip-link:focus {
+            top: 6px;
+        }
     </style>
 </head>
 
 <body>
     <div class="container-fluid p-0">
+        <!-- FIX: Добавлена ссылка для пропуска навигации -->
+        <a href="#main-content" class="skip-link">Перейти к основному содержанию</a>
+
         <!-- Header -->
         <header class="bg-dark py-4 border-bottom border-secondary">
             <div class="container">
@@ -142,7 +190,7 @@
                     <div class="col-auto">
                         <div class="tech-badge">
                             <div class="tech-icon">
-                                <i class="bi bi-mortarboard-fill"></i>
+                                <i class="bi bi-mortarboard-fill" aria-hidden="true"></i> <!-- FIX: aria-hidden для декоративной иконки -->
                             </div>
                             <div class="tech-content">
                                 <div class="tech-title">Группа</div>
@@ -154,32 +202,33 @@
             </div>
         </header>
 
-        <!-- Navigation -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <!-- FIX: Добавлен aria-label для навигации -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Основная навигация">
             <div class="container">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-expanded="false" aria-controls="navbarNav" aria-label="Переключить навигацию">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link" href="../index.html">
-                                <i class="bi bi-house me-1"></i>Главная
+                                <i class="bi bi-house me-1" aria-hidden="true"></i>Главная
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="projects.html">
-                                <i class="bi bi-code-slash me-1"></i>Проекты
+                                <i class="bi bi-code-slash me-1" aria-hidden="true"></i>Проекты
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="diary.html">
-                                <i class="bi bi-journal-text me-1"></i>Дневник
+                                <i class="bi bi-journal-text me-1" aria-hidden="true"></i>Дневник
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="contacts.html">
-                                <i class="bi bi-envelope me-1"></i>Контакты
+                            <!-- FIX: Добавлен aria-current для активной страницы -->
+                            <a class="nav-link active" href="contacts.html" aria-current="page">
+                                <i class="bi bi-envelope me-1" aria-hidden="true"></i>Контакты
                             </a>
                         </li>
                     </ul>
@@ -187,81 +236,126 @@
             </div>
         </nav>
 
-        <!-- Main Content -->
-        <main class="container my-5">
+        <!-- FIX: Добавлен main с id для ссылки "перейти к содержанию" -->
+        <main id="main-content" class="container my-5">
             <div class="row">
                 <!-- Контактная форма -->
                 <div class="col-lg-8 mb-5">
                     <h1 class="mb-4">Свяжитесь со мной</h1>
 
-                    <form class="needs-validation" novalidate>
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Имя *</label>
-                            <input type="text" class="form-control" id="name" required>
-                            <div class="invalid-feedback">
-                                Пожалуйста, введите ваше имя.
-                            </div>
-                        </div>
+                    <!-- FIX: Удален novalidate, добавлены name, fieldset, legend, aria-required, aria-describedby -->
+                    <form class="needs-validation" id="contact-form">
+                        <fieldset>
+                            <legend class="sr-only">Форма обратной связи</legend> <!-- FIX: Легенда скрыта визуально, но доступна для скринридеров -->
 
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email *</label>
-                            <input type="email" class="form-control" id="email" required>
-                            <div class="invalid-feedback">
-                                Пожалуйста, введите корректный email адрес.
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Имя <span class="text-primary">*</span> <span class="text-muted">(обязательно)</span></label>
+                                <input type="text" class="form-control" id="name" name="name" required aria-required="true" aria-describedby="name-error">
+                                <div class="invalid-feedback" id="name-error">
+                                    Пожалуйста, введите ваше имя.
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="mb-3">
-                            <label for="message" class="form-label">Сообщение *</label>
-                            <textarea class="form-control" id="message" rows="5" required></textarea>
-                            <div class="invalid-feedback">
-                                Пожалуйста, введите ваше сообщение.
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email <span class="text-primary">*</span> <span class="text-muted">(обязательно)</span></label>
+                                <input type="email" class="form-control" id="email" name="email" required aria-required="true" aria-describedby="email-error">
+                                <div class="invalid-feedback" id="email-error">
+                                    Пожалуйста, введите корректный email адрес.
+                                </div>
                             </div>
-                        </div>
 
-                        <button type="submit" class="btn btn-primary">Отправить сообщение</button>
+                            <div class="mb-3">
+                                <label for="message" class="form-label">Сообщение <span class="text-primary">*</span> <span class="text-muted">(обязательно)</span></label>
+                                <textarea class="form-control" id="message" name="message" rows="5" required aria-required="true" aria-describedby="message-error"></textarea>
+                                <div class="invalid-feedback" id="message-error">
+                                    Пожалуйста, введите ваше сообщение.
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Отправить сообщение</button>
+                        </fieldset>
                     </form>
+
+                    <!-- FIX: Область для уведомлений об успешной отправке -->
+                    <div id="form-feedback" role="status" aria-live="polite"></div>
                 </div>
 
                 <!-- Контактная информация -->
                 <div class="col-lg-4">
-                    <div class="card border-secondary">
-                        <div class="card-body">
-                            <h5 class="card-title mb-4">Контакты</h5>
-                            <div class="mb-3">
-                                <i class="bi bi-envelope me-2 text-primary"></i>
-                                <span>kartsev.v.d@edu.ru</span>
-                            </div>
-                            <div class="mb-3">
-                                <i class="bi bi-github me-2 text-primary"></i>
-                                <span>GitHub: polargreyOff</span>
-                            </div>
-                            <div class="mb-3">
-                                <i class="bi bi-geo-alt me-2 text-primary"></i>
-                                <span>Москва, Россия</span>
+                    <!-- FIX: Обернуто в section с заголовком -->
+                    <section aria-labelledby="contact-info-heading">
+                        <h2 id="contact-info-heading" class="h4 mb-3">Контакты</h2>
+                        <div class="card border-secondary">
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <!-- FIX: Добавлен aria-label для иконки email -->
+                                    <i class="bi bi-envelope me-2 text-primary" aria-label="Электронная почта"></i>
+                                    <span>kartsev.v.d@edu.ru</span>
+                                </div>
+                                <div class="mb-3">
+                                    <!-- FIX: Добавлен aria-label для иконки GitHub -->
+                                    <i class="bi bi-github me-2 text-primary" aria-label="GitHub"></i>
+                                    <span>GitHub: polargreyOff</span>
+                                </div>
+                                <div class="mb-3">
+                                    <!-- FIX: Добавлен aria-label для иконки местоположения -->
+                                    <i class="bi bi-geo-alt me-2 text-primary" aria-label="Местоположение"></i>
+                                    <span>Москва, Россия</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </section>
                 </div>
             </div>
         </main>
 
         <script>
-            // Валидация формы
+            // FIX: Улучшенная валидация формы с ARIA
             (function () {
                 'use strict';
                 window.addEventListener('load', function () {
-                    var forms = document.getElementsByClassName('needs-validation');
-                    var validation = Array.prototype.filter.call(forms, function (form) {
-                        form.addEventListener('submit', function (event) {
-                            if (form.checkValidity() === false) {
-                                event.preventDefault();
-                                event.stopPropagation();
-                            }
-                            form.classList.add('was-validated');
-                        }, false);
-                    });
-                }, false);
+                    const form = document.getElementById('contact-form');
+                    const feedbackEl = document.getElementById('form-feedback');
+
+                    form.addEventListener('submit', function (event) {
+                        event.preventDefault();
+                        event.stopPropagation();
+
+                        // Сброс предыдущих состояний
+                        const invalidFields = form.querySelectorAll('.is-invalid, [aria-invalid="true"]');
+                        invalidFields.forEach(field => {
+                            field.classList.remove('is-invalid');
+                            field.setAttribute('aria-invalid', 'false');
+                        });
+
+                        if (form.checkValidity() === false) {
+                            // Находим невалидные поля и добавляем им ARIA-атрибуты
+                            const invalidFields = form.querySelectorAll(':invalid');
+                            invalidFields.forEach(field => {
+                                field.classList.add('is-invalid');
+                                field.setAttribute('aria-invalid', 'true');
+                            });
+
+                            // Сообщение для скринридера
+                            feedbackEl.textContent = 'В форме есть ошибки. Пожалуйста, проверьте введённые данные.';
+                            feedbackEl.className = 'alert alert-danger mt-3';
+                        } else {
+                            // Имитация успешной отправки
+                            feedbackEl.textContent = 'Ваше сообщение успешно отправлено! Я свяжусь с вами в ближайшее время.';
+                            feedbackEl.className = 'alert alert-success mt-3';
+                            form.reset();
+                            form.classList.remove('was-validated');
+
+                            // Сброс ARIA-атрибутов
+                            const fields = form.querySelectorAll('[aria-invalid]');
+                            fields.forEach(field => {
+                                field.setAttribute('aria-invalid', 'false');
+                            });
+                        }
+
+                        form.classList.add('was-validated');
+                    }, false);
+                });
             })();
         </script>
 
@@ -281,6 +375,41 @@
         </footer>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Улучшенная загрузка изображений
+        document.addEventListener('DOMContentLoaded', function () {
+            // Ленивая загрузка
+            const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.classList.add('loaded');
+                        observer.unobserve(img);
+                    }
+                });
+            });
+
+            lazyImages.forEach(img => imageObserver.observe(img));
+
+            // Retina детекция
+            function isRetina() {
+                return window.devicePixelRatio > 1;
+            }
+
+            // Автоматическое переключение на Retina изображения
+            if (isRetina()) {
+                document.querySelectorAll('img[data-retina]').forEach(img => {
+                    const retinaSrc = img.getAttribute('data-retina');
+                    if (retinaSrc) {
+                        img.src = retinaSrc;
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>
