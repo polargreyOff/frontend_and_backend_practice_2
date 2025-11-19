@@ -4,10 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Контакты - Портфолио</title>
+    <title>Контакты - Портфолио студента разработчика</title>
+    <meta name="description" content="Свяжитесь со мной через контактную форму. Студент разработчик, портфолио проектов и достижений. Группа ЭФБО-02-24">
+    
+    <!-- Preconnect для CDN -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/adaptive-images.css">
+    
+    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Preload критического шрифта -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.woff2" as="font" type="font/woff2" crossorigin>
+    
     <style>
         :root {
             --bs-primary: #6366f1;
@@ -132,17 +143,65 @@
         .navbar-nav .nav-link:focus,
         .btn:focus,
         .form-control:focus,
-        .form-select:focus {
-            outline: 2px solid #93c5fd;
+        .form-select:focus,
+        .skip-link:focus {
+            outline: 3px solid #93c5fd;
             outline-offset: 2px;
+            border-radius: 2px;
         }
 
-        /* FIX: Улучшение контрастности для текста в подвале */
+        /* FIX: Улучшение контрастности для текста */
         .text-muted {
-            color: #cbd5e1 !important; /* Заменяет стандартный серый на более светлый */
+            color: #e2e8f0 !important;
         }
 
-        /* FIX: Скрытие элемента для скринридеров */
+        .required-field::after {
+            content: " *";
+            color: #ef4444;
+        }
+
+        /* FIX: Стиль для ссылки "перейти к содержанию" с улучшенной контрастностью */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: #6366f1;
+            color: #ffffff !important;
+            padding: 12px 16px;
+            z-index: 10000;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            border: 2px solid transparent;
+        }
+
+        .skip-link:focus {
+            top: 6px;
+            background: #4f46e5;
+            border-color: #93c5fd;
+        }
+
+        /* Плавная анимация для изображений */
+        img[loading="lazy"] {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        img[loading="lazy"].loaded {
+            opacity: 1;
+        }
+
+        /* Улучшение доступности для инвалидных состояний формы */
+        .is-invalid {
+            border-color: #ef4444;
+            padding-right: calc(1.5em + 0.75rem);
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23ef4444'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath d='m5.8 3.6.4.4.4-.4'/%3e%3cpath d='M6 7v1'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right calc(0.375em + 0.1875rem) center;
+            background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+        }
+
+        /* Улучшение видимости для скринридеров */
         .sr-only {
             position: absolute;
             width: 1px;
@@ -155,29 +214,18 @@
             border: 0;
         }
 
-        /* FIX: Стиль для ссылки "перейти к содержанию" */
-        .skip-link {
-            position: absolute;
-            top: -40px;
-            left: 6px;
-            background: #6366f1;
-            color: white;
-            padding: 8px;
-            z-index: 10000;
-            text-decoration: none;
-            border-radius: 4px;
-        }
-
-        .skip-link:focus {
-            top: 6px;
+        /* Улучшение контрастности для иконок */
+        .contact-icon {
+            color: #6366f1;
+            min-width: 20px;
         }
     </style>
 </head>
 
 <body>
     <div class="container-fluid p-0">
-        <!-- FIX: Добавлена ссылка для пропуска навигации -->
-        <a href="#main-content" class="skip-link">Перейти к основному содержанию</a>
+        <!-- FIX: Улучшенная ссылка для пропуска навигации с лучшей контрастностью -->
+        
 
         <!-- Header -->
         <header class="bg-dark py-4 border-bottom border-secondary">
@@ -190,7 +238,7 @@
                     <div class="col-auto">
                         <div class="tech-badge">
                             <div class="tech-icon">
-                                <i class="bi bi-mortarboard-fill" aria-hidden="true"></i> <!-- FIX: aria-hidden для декоративной иконки -->
+                                <i class="bi bi-mortarboard-fill" aria-hidden="true"></i>
                             </div>
                             <div class="tech-content">
                                 <div class="tech-title">Группа</div>
@@ -202,10 +250,11 @@
             </div>
         </header>
 
-        <!-- FIX: Добавлен aria-label для навигации -->
+        <!-- FIX: Улучшенная навигация с правильными ARIA-атрибутами -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Основная навигация">
             <div class="container">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-expanded="false" aria-controls="navbarNav" aria-label="Переключить навигацию">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                        aria-expanded="false" aria-controls="navbarNav" aria-label="Переключить навигацию">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
@@ -226,7 +275,6 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <!-- FIX: Добавлен aria-current для активной страницы -->
                             <a class="nav-link active" href="contacts.html" aria-current="page">
                                 <i class="bi bi-envelope me-1" aria-hidden="true"></i>Контакты
                             </a>
@@ -236,71 +284,92 @@
             </div>
         </nav>
 
-        <!-- FIX: Добавлен main с id для ссылки "перейти к содержанию" -->
-        <main id="main-content" class="container my-5">
+        <!-- FIX: Основной контент с улучшенной семантикой -->
+        <main id="main-content" class="container my-5" tabindex="-1">
             <div class="row">
                 <!-- Контактная форма -->
                 <div class="col-lg-8 mb-5">
                     <h1 class="mb-4">Свяжитесь со мной</h1>
 
-                    <!-- FIX: Удален novalidate, добавлены name, fieldset, legend, aria-required, aria-describedby -->
-                    <form class="needs-validation" id="contact-form">
+                    <!-- FIX: Улучшенная форма с правильной семантикой и ARIA -->
+                    <form class="needs-validation" id="contact-form" novalidate>
                         <fieldset>
-                            <legend class="sr-only">Форма обратной связи</legend> <!-- FIX: Легенда скрыта визуально, но доступна для скринридеров -->
-
+                            <legend class="h4 mb-3">Форма обратной связи</legend>
+                            
                             <div class="mb-3">
-                                <label for="name" class="form-label">Имя <span class="text-primary">*</span> <span class="text-muted">(обязательно)</span></label>
-                                <input type="text" class="form-control" id="name" name="name" required aria-required="true" aria-describedby="name-error">
+                                <label for="name" class="form-label required-field">Имя</label>
+                                <input type="text" class="form-control" id="name" name="name" 
+                                       required aria-required="true" 
+                                       aria-describedby="name-help name-error"
+                                       minlength="2">
+                                <div class="form-text" id="name-help">Введите ваше полное имя</div>
                                 <div class="invalid-feedback" id="name-error">
-                                    Пожалуйста, введите ваше имя.
+                                    Пожалуйста, введите ваше имя (минимум 2 символа).
                                 </div>
                             </div>
 
                             <div class="mb-3">
-                                <label for="email" class="form-label">Email <span class="text-primary">*</span> <span class="text-muted">(обязательно)</span></label>
-                                <input type="email" class="form-control" id="email" name="email" required aria-required="true" aria-describedby="email-error">
+                                <label for="email" class="form-label required-field">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" 
+                                       required aria-required="true"
+                                       aria-describedby="email-help email-error"
+                                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+                                <div class="form-text" id="email-help">Мы никогда не передадим вашу электронную почту кому-либо еще.</div>
                                 <div class="invalid-feedback" id="email-error">
                                     Пожалуйста, введите корректный email адрес.
                                 </div>
                             </div>
 
                             <div class="mb-3">
-                                <label for="message" class="form-label">Сообщение <span class="text-primary">*</span> <span class="text-muted">(обязательно)</span></label>
-                                <textarea class="form-control" id="message" name="message" rows="5" required aria-required="true" aria-describedby="message-error"></textarea>
+                                <label for="message" class="form-label required-field">Сообщение</label>
+                                <textarea class="form-control" id="message" name="message" 
+                                          rows="5" required aria-required="true"
+                                          aria-describedby="message-help message-error"
+                                          minlength="10"></textarea>
+                                <div class="form-text" id="message-help">Опишите подробно ваш вопрос или предложение</div>
                                 <div class="invalid-feedback" id="message-error">
-                                    Пожалуйста, введите ваше сообщение.
+                                    Пожалуйста, введите ваше сообщение (минимум 10 символов).
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-primary">Отправить сообщение</button>
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="bi bi-send me-2" aria-hidden="true"></i>Отправить сообщение
+                            </button>
                         </fieldset>
                     </form>
 
-                    <!-- FIX: Область для уведомлений об успешной отправке -->
-                    <div id="form-feedback" role="status" aria-live="polite"></div>
+                    <!-- FIX: Область для уведомлений с правильными ARIA-атрибутами -->
+                    <div id="form-feedback" role="status" aria-live="polite" aria-atomic="true"></div>
                 </div>
 
                 <!-- Контактная информация -->
                 <div class="col-lg-4">
-                    <!-- FIX: Обернуто в section с заголовком -->
+                    <!-- FIX: Улучшенная секция контактов с правильной семантикой -->
                     <section aria-labelledby="contact-info-heading">
                         <h2 id="contact-info-heading" class="h4 mb-3">Контакты</h2>
                         <div class="card border-secondary">
                             <div class="card-body">
-                                <div class="mb-3">
-                                    <!-- FIX: Добавлен aria-label для иконки email -->
-                                    <i class="bi bi-envelope me-2 text-primary" aria-label="Электронная почта"></i>
-                                    <span>kartsev.v.d@edu.ru</span>
+                                <div class="mb-3 d-flex align-items-center">
+                                    <!-- FIX: Правильные ARIA-атрибуты для иконок -->
+                                    <i class="bi bi-envelope contact-icon me-3" role="img" aria-label="Электронная почта"></i>
+                                    <div>
+                                        <div class="fw-bold">Email</div>
+                                        <a href="mailto:kartsev.v.d@edu.ru" class="text-decoration-none">kartsev.v.d@edu.ru</a>
+                                    </div>
                                 </div>
-                                <div class="mb-3">
-                                    <!-- FIX: Добавлен aria-label для иконки GitHub -->
-                                    <i class="bi bi-github me-2 text-primary" aria-label="GitHub"></i>
-                                    <span>GitHub: polargreyOff</span>
+                                <div class="mb-3 d-flex align-items-center">
+                                    <i class="bi bi-github contact-icon me-3" role="img" aria-label="GitHub профиль"></i>
+                                    <div>
+                                        <div class="fw-bold">GitHub</div>
+                                        <a href="https://github.com/polargreyOff" class="text-decoration-none" target="_blank" rel="noopener">polargreyOff</a>
+                                    </div>
                                 </div>
-                                <div class="mb-3">
-                                    <!-- FIX: Добавлен aria-label для иконки местоположения -->
-                                    <i class="bi bi-geo-alt me-2 text-primary" aria-label="Местоположение"></i>
-                                    <span>Москва, Россия</span>
+                                <div class="mb-3 d-flex align-items-center">
+                                    <i class="bi bi-geo-alt contact-icon me-3" role="img" aria-label="Местоположение"></i>
+                                    <div>
+                                        <div class="fw-bold">Адрес</div>
+                                        <span>Москва, Россия</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -310,53 +379,174 @@
         </main>
 
         <script>
-            // FIX: Улучшенная валидация формы с ARIA
+            // FIX: Улучшенная валидация формы с ARIA и доступностью
             (function () {
                 'use strict';
                 window.addEventListener('load', function () {
                     const form = document.getElementById('contact-form');
                     const feedbackEl = document.getElementById('form-feedback');
+                    
+                    // Сообщения об ошибках
+                    const errorMessages = {
+                        name: "Пожалуйста, введите ваше имя (минимум 2 символа)",
+                        email: "Пожалуйста, введите корректный email адрес",
+                        message: "Сообщение должно содержать не менее 10 символов"
+                    };
+
+                    function showError(field, message) {
+                        field.classList.add('is-invalid');
+                        field.setAttribute('aria-invalid', 'true');
+                        
+                        const errorElement = document.getElementById(field.id + '-error');
+                        if (errorElement) {
+                            errorElement.textContent = message;
+                        }
+                    }
+
+                    function clearError(field) {
+                        field.classList.remove('is-invalid');
+                        field.setAttribute('aria-invalid', 'false');
+                        
+                        const errorElement = document.getElementById(field.id + '-error');
+                        if (errorElement) {
+                            errorElement.textContent = '';
+                        }
+                    }
+
+                    function validateField(field) {
+                        clearError(field);
+                        
+                        if (!field.value.trim()) {
+                            showError(field, 'Это поле обязательно для заполнения');
+                            return false;
+                        }
+                        
+                        if (field.type === 'email' && !field.validity.valid) {
+                            showError(field, errorMessages.email);
+                            return false;
+                        }
+                        
+                        if (field.minLength > 0 && field.value.length < field.minLength) {
+                            showError(field, errorMessages[field.name]);
+                            return false;
+                        }
+                        
+                        return true;
+                    }
+
+                    // Валидация при вводе
+                    form.querySelectorAll('input, textarea').forEach(field => {
+                        field.addEventListener('blur', function() {
+                            validateField(this);
+                        });
+                        
+                        field.addEventListener('input', function() {
+                            if (this.classList.contains('is-invalid')) {
+                                validateField(this);
+                            }
+                        });
+                    });
 
                     form.addEventListener('submit', function (event) {
                         event.preventDefault();
                         event.stopPropagation();
 
                         // Сброс предыдущих состояний
-                        const invalidFields = form.querySelectorAll('.is-invalid, [aria-invalid="true"]');
-                        invalidFields.forEach(field => {
-                            field.classList.remove('is-invalid');
-                            field.setAttribute('aria-invalid', 'false');
+                        let isValid = true;
+                        const fields = form.querySelectorAll('input, textarea');
+                        
+                        fields.forEach(field => {
+                            if (!validateField(field)) {
+                                isValid = false;
+                            }
                         });
 
-                        if (form.checkValidity() === false) {
-                            // Находим невалидные поля и добавляем им ARIA-атрибуты
-                            const invalidFields = form.querySelectorAll(':invalid');
-                            invalidFields.forEach(field => {
-                                field.classList.add('is-invalid');
-                                field.setAttribute('aria-invalid', 'true');
-                            });
-
+                        if (!isValid) {
+                            // Фокусировка на первом ошибочном поле
+                            const firstInvalid = form.querySelector('.is-invalid');
+                            if (firstInvalid) {
+                                firstInvalid.focus();
+                            }
+                            
                             // Сообщение для скринридера
-                            feedbackEl.textContent = 'В форме есть ошибки. Пожалуйста, проверьте введённые данные.';
-                            feedbackEl.className = 'alert alert-danger mt-3';
+                            feedbackEl.innerHTML = '<div class="alert alert-danger mt-3" role="alert">В форме есть ошибки. Пожалуйста, проверьте введённые данные.</div>';
                         } else {
                             // Имитация успешной отправки
-                            feedbackEl.textContent = 'Ваше сообщение успешно отправлено! Я свяжусь с вами в ближайшее время.';
-                            feedbackEl.className = 'alert alert-success mt-3';
+                            feedbackEl.innerHTML = '<div class="alert alert-success mt-3" role="alert"><strong>Успешно!</strong> Ваше сообщение отправлено. Я свяжусь с вами в ближайшее время.</div>';
                             form.reset();
                             form.classList.remove('was-validated');
 
                             // Сброс ARIA-атрибутов
-                            const fields = form.querySelectorAll('[aria-invalid]');
                             fields.forEach(field => {
                                 field.setAttribute('aria-invalid', 'false');
                             });
+                            
+                            // Фокусировка на сообщении об успехе для скринридеров
+                            feedbackEl.focus();
                         }
 
                         form.classList.add('was-validated');
                     }, false);
                 });
             })();
+
+            // FIX: Улучшенная обработка загрузки изображений
+            document.addEventListener('DOMContentLoaded', function () {
+                // Ленивая загрузка с улучшенной доступностью
+                const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+                
+                if ('IntersectionObserver' in window) {
+                    const imageObserver = new IntersectionObserver((entries, observer) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                const img = entry.target;
+                                img.classList.add('loaded');
+                                
+                                // Добавляем альтернативный текст если его нет
+                                if (!img.getAttribute('alt')) {
+                                    img.setAttribute('alt', 'Декоративное изображение');
+                                }
+                                
+                                observer.unobserve(img);
+                            }
+                        });
+                    });
+
+                    lazyImages.forEach(img => imageObserver.observe(img));
+                } else {
+                    // Fallback для браузеров без IntersectionObserver
+                    lazyImages.forEach(img => {
+                        img.classList.add('loaded');
+                    });
+                }
+
+                // Retina детекция
+                function isRetina() {
+                    return window.devicePixelRatio > 1;
+                }
+
+                // Автоматическое переключение на Retina изображения
+                if (isRetina()) {
+                    document.querySelectorAll('img[data-retina]').forEach(img => {
+                        const retinaSrc = img.getAttribute('data-retina');
+                        if (retinaSrc) {
+                            img.src = retinaSrc;
+                        }
+                    });
+                }
+                
+                // Улучшение фокуса для навигации
+                const skipLink = document.querySelector('.skip-link');
+                if (skipLink) {
+                    skipLink.addEventListener('click', function() {
+                        const mainContent = document.getElementById('main-content');
+                        if (mainContent) {
+                            mainContent.setAttribute('tabindex', '-1');
+                            mainContent.focus();
+                        }
+                    });
+                }
+            });
         </script>
 
         <!-- Footer -->
@@ -364,7 +554,7 @@
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-md-6">
-                        <p class="mb-0 text-muted">&copy; 2024 Портфолио студента. Все права защищены.</p>
+                        <p class="mb-0">&copy; 2024 Портфолио студента. Все права защищены.</p>
                     </div>
                     <div class="col-md-6 text-md-end">
                         <a href="contacts.html" class="text-white text-decoration-none me-3">Контакты</a>
@@ -374,41 +564,29 @@
             </div>
         </footer>
     </div>
+    
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        // Улучшенная загрузка изображений
-        document.addEventListener('DOMContentLoaded', function () {
-            // Ленивая загрузка
-            const lazyImages = document.querySelectorAll('img[loading="lazy"]');
-
-            const imageObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const img = entry.target;
-                        img.classList.add('loaded');
-                        observer.unobserve(img);
-                    }
-                });
-            });
-
-            lazyImages.forEach(img => imageObserver.observe(img));
-
-            // Retina детекция
-            function isRetina() {
-                return window.devicePixelRatio > 1;
+    
+    <!-- Structured Data для SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ContactPage",
+        "name": "Контакты - Портфолио студента разработчика",
+        "description": "Страница для связи со студентом-разработчиком. Контактная форма и информация для связи.",
+        "mainEntity": {
+            "@type": "Person",
+            "name": "Студент разработчик",
+            "email": "kartsev.v.d@edu.ru",
+            "url": "https://github.com/polargreyOff",
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Москва",
+                "addressCountry": "Россия"
             }
-
-            // Автоматическое переключение на Retina изображения
-            if (isRetina()) {
-                document.querySelectorAll('img[data-retina]').forEach(img => {
-                    const retinaSrc = img.getAttribute('data-retina');
-                    if (retinaSrc) {
-                        img.src = retinaSrc;
-                    }
-                });
-            }
-        });
+        }
+    }
     </script>
 </body>
 
